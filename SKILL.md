@@ -2,7 +2,7 @@
 name: shiyiagi-director-action
 description: 动作片/打斗类 AI 视频导演提示词封装。当用户要做「武打、格斗、战斗、动作戏、奇幻武侠、超现实打斗、一对多、围攻、混战、枪战、地面技」的镜头化呈现，需要把连续打斗拆成可生成的镜头、处理力度与打击感、并把「长镜头/满屏/帅气/炸裂/透视/冲击帧/瞬移/连闪/升格」这类观感词翻译成可执行镜头元件时使用。触发词包括「打斗」「动作片」「武打」「格斗」「战斗分镜」「动作导演」「炸裂」「冲击帧」「帅气打斗」「瞬移」「闪现」「分身」「连续瞬身」「超高速」「升格」「慢动作」「超能力打斗」「一个打三个」「围攻」「混战」「一打多」「枪战」「擒拿」「地面技」。注意：品牌形象片走 shiyiagi-director-ad-tvc；剧情带货走 shiyiagi-director-story-selling；叙事/故事类走 shiyiagi-director-film。
 author: 十一AGI
-version: 1.7.0
+version: 1.8.0
 agent_created: true
 ---
 
@@ -117,6 +117,8 @@ agent_created: true
 
 **顺序不能乱**：句首权重最高，主体动作必须在最前。"8K / 超高清 / 电影感"放句首等于浪费预算。
 
+> **碰撞特效**：按 `references/collision-fx.md` 的三级字典取配方（轻碰撞 / 重碰撞 / 大招爆发 → 固定视觉配方，全场复用），碰撞段紧跟主体动作、特效锚定在载体上；**只写引擎可执行部分**——负片 / 鱼眼 / 抽帧节奏 / 径向震荡是剪辑台的词，不进 prompt。
+
 > 关于"主体动作在句首 vs 镜头在句首"存在实测分歧，兼容方案与验证方法见 `concept-translation.md` 第七节。
 
 ### 第 7 步：合规与自检
@@ -140,7 +142,8 @@ agent_created: true
 ## Resources
 
 ### references/
-- `fight-design.md` — **打斗设计层（本 skill 的地基）**：开打前四问 + 力量对比三关系 + 招式四原则 + 空间是打斗的一半 + 节奏「暂停—爆发—暂停」+ 一攻一应六要素 + 组合拳七要素 + 港式/好莱坞两套体系 + 生成单元≠成片镜长 + 清晰度优先。**第 2 步必加载**，是「看得懂」的唯一保证。
+- `fight-design.md` — **打斗设计层（本 skill 的地基）**：开打前四问 + 力量对比三关系 + 招式四原则 + 招式名词化 + 空间是打斗的一半 + 节奏「暂停—爆发—暂停」+ 一攻一应六要素 + 组合拳七要素 + 力量证据进阶（不写快写物理后果）+ 港式/好莱坞两套体系 + 生成单元≠成片镜长 + 清晰度优先 + 延迟爆碎收场。**第 2 步必加载**，是「看得懂」的唯一保证。
+- `collision-fx.md` — **碰撞特效分级与防崩护栏**：三级特效字典（轻碰撞/重碰撞/大招爆发 → 固定视觉配方，全场复用）+ 每级特效的「进 prompt vs 留剪辑台」分流 + 特效贴附写法（特效"长在"载体上防飘散）+ 特效标绝对时长 + 防崩护栏三连（旋转≤360° / 反滑步 / 零站桩）。**定完武器、写逐镜 prompt 前必加载。**
 - `supernatural-fight.md` — **超现实/奇幻武侠打斗的提示词层**：瞬移 / 多段连续瞬身 / 超高速攻击 / 升格（慢动作）/ 变速 怎么写。核心是「给"不连续"一个可见的中间态」三段式 + 四种过渡载体 + 奇幻介质表 + 镜间拆镜硬约束。**奇幻 / 超能力 / 修仙 / 赛博题材必加载。**
 - `supernatural-fight-design.md` — **超现实打斗的设计层（与 `fight-design.md` 平行）**：能力契约（双方能力 + 代价盲区 + 情报差）+ 克制关系 + 空间重定义（距离失效，改看感知范围与盲区）+ 情报战四段式（试探→暴露→反制→终结）+ 大招经济学 + 一攻一应的超现实版六要素 + 特效不能盖住动作。**奇幻题材写分镜前必加载。**
 - `weapon-design.md` — **武器类型设计层**：武器类型设计表（空手 / 刀剑 / 长兵器 / 双武器 / 暗器 / 软兵器 / 枪械 / 钝器 / 异能，各含有效距离、动作特征、景别、单镜时长、**AI 崩点**、设计要点）+ 武器的「节奏指纹」（换武器必须换四拍配比）+ 武器在四拍中的角色（**武器轨迹必须写**）+ 武器安全距离 + 武器选择速查。**定了武器必加载——这一步最常被跳过，然后就在模型最弱的地方反复抽卡。**
@@ -196,6 +199,9 @@ agent_created: true
 - [ ] 连续动作拆成了**姿态链**（3–5 个关键姿态），没有把两秒整段甩给模型
 - [ ] 力量证据写在**承受者与环境**上（退几步 / 撞翻道具 / 扬尘 / 重心位移），没有写在接触点形变上
 - [ ] 主镜给了**一个「停点」**（能停在接触前一掌宽，就不写"一拳打在脸上"）
+- [ ] 碰撞特效已按**三级字典**分级（轻/重/大招各有固定配方），全场复用同一配方
+- [ ] 特效**贴附**在武器与载体上（贴附词 + 恒定伴随句逐字复用），无"周身环绕"式满屏特效；**后期词**（负片/鱼眼/抽帧节奏/径向震荡）未混进 prompt
+- [ ] 翻转旋转 ≤360°；写明"跑动不滑步 / 零站桩"或每击带重心位移，无站桩输出镜
 - [ ] 快节奏镜主体居中、朝向明确（清晰度自测：暂停任意一帧，朝向是否清楚）
 - [ ] 排除文字用构图描述，未写"无字幕/无文字"
 - [ ] 画幅标注 2.39:1，主体占画面 ≥60%
@@ -223,5 +229,5 @@ agent_created: true
 - 与 `shiyiagi-director-ad-tvc`、`shiyiagi-director-story-selling` 的分工：镜头语法通用，但**打斗设计层（一攻一应 / 力量证据 / 两套体系 / 开场收场）、多人打斗层（威胁分级 / 多人版七要素）、武器类型层（AI 崩点 / 节奏指纹）、超现实打斗层（能力契约 / 情报战四段式 / 瞬移三段式）、环境氛围层（恶化曲线 / 四拍环境角色）、四拍拆解法与概念转译表是本 skill 独有**。广告片套动作骨架会显得用力过猛，动作片套广告骨架会没有打击感。
 - 概念转译表的本质是"形容词→电影元件"的字典。后续实测中若发现某词转译后效果差，直接改 `references/concept-translation.md` 对应行，不必动主模板。
 - 合规内容以平台最新规则为准，发布前务必过一遍平台后台的违禁词与画面尺度检测。
-- 【维护】**手写、不在构建链**：`fight-design.md`、`supernatural-fight-design.md`、`supernatural-fight.md`、`environment-atmosphere.md`、`multi-opponent-design.md`、`weapon-design.md`、`concept-translation.md`、`action-director-prompt.md`、`ai-video-prompt.md`、`lens-grammar.md`、`compliance.md`、`walkthrough-supernatural.md`、`walkthrough-realistic.md`、`SKILL.md`——直接改即生效。
-- 【维护】**由单一真源构建生成**（公共 `_shared/` + 本技能专属片段拼接）：`production.md` / `platform-specs.md` / `style-anchors.md` / `troubleshooting.md`。要改公共内容请改 `C:/Users/29785/.workbuddy/skills-src/` 下的源文件后重新 `python build.py --skill shiyiagi-director-action`，直接改生成物会在下次构建时被覆盖。
+- 【维护】**手写、不在构建链**：`fight-design.md`、`supernatural-fight-design.md`、`supernatural-fight.md`、`environment-atmosphere.md`、`multi-opponent-design.md`、`weapon-design.md`、`collision-fx.md`、`concept-translation.md`、`action-director-prompt.md`、`ai-video-prompt.md`、`lens-grammar.md`、`compliance.md`、`walkthrough-supernatural.md`、`walkthrough-realistic.md`、`SKILL.md`——直接改即生效。
+- 【维护】**由单一真源构建生成**（公共 `_shared/` + 本技能专属片段拼接）：`production.md` / `platform-specs.md` / `style-anchors.md` / `troubleshooting.md`。要改公共内容请改 `~/.workbuddy/skills-src/` 下的源文件后重新 `python build.py --skill shiyiagi-director-action`，直接改生成物会在下次构建时被覆盖。

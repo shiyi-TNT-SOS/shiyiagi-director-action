@@ -36,6 +36,7 @@ shiyiagi-director-action/
 └── references/
     ├── action-director-prompt.md      # 主模板（四要素契约）
     ├── fight-design.md                # 写实打斗设计地基
+    ├── collision-fx.md                # 碰撞特效三级字典 + 防崩护栏
     ├── supernatural-fight.md          # 超现实提示词层（瞬移/连闪/升格）
     ├── supernatural-fight-design.md   # 超现实设计层（能力契约/情报战）
     ├── environment-atmosphere.md      # 环境氛围层（第五个角色）
@@ -68,7 +69,7 @@ shiyiagi-director-action/
 
 ## 版本与授权
 
-- 版本：**v1.7.0**
+- 版本：**v1.8.0**
 - 作者：十一AGI（柳十一 / 十一AGI认知圈）
 - 授权：学习与非商业用途可自由使用；商用请先联系作者授权。
 
